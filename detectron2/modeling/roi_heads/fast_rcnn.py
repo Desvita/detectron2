@@ -341,7 +341,16 @@ class FastRCNNOutputLayers(nn.Module):
         if self.use_sigmoid_ce:
             loss_cls = self.sigmoid_cross_entropy_loss(scores, gt_classes)
         else:
-            loss_cls = cross_entropy(scores, gt_classes, reduction="mean")
+            # Assign weights to each classes
+            skeletal_muscle_id = 12
+            brown_adipose_id = 3
+            bone_cartilage_id = 1
+            class_weights = torch.ones(scores.shape[1], device=scores.device)
+            class_weights[skeletal_muscle_id] = 1.5 
+            class_weights[brown_adipose_id] = 1.5
+            class_weights[bone_cartilage_id] = 1.5
+            
+            loss_cls = cross_entropy(scores, gt_classes, weights = class_weights, reduction="mean")
 
         losses = {
             "loss_cls": loss_cls,
