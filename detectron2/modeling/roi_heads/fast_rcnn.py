@@ -350,7 +350,7 @@ class FastRCNNOutputLayers(nn.Module):
             class_weights[brown_adipose_id] = 1.5
             class_weights[bone_cartilage_id] = 1.5
             
-            loss_cls = cross_entropy(scores, gt_classes, weights = class_weights, reduction="mean")
+            loss_cls = cross_entropy(scores, gt_classes, weight = class_weights, reduction="mean")
 
         losses = {
             "loss_cls": loss_cls,
