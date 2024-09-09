@@ -346,9 +346,9 @@ class FastRCNNOutputLayers(nn.Module):
             brown_adipose_id = 3
             bone_cartilage_id = 1
             class_weights = torch.ones(scores.shape[1], device=scores.device)
-            class_weights[skeletal_muscle_id] = 1.5 
-            class_weights[brown_adipose_id] = 1.5
-            class_weights[bone_cartilage_id] = 1.5
+            class_weights[skeletal_muscle_id] = 2
+            class_weights[brown_adipose_id] = 2
+            class_weights[bone_cartilage_id] = 2
             
             loss_cls = cross_entropy(scores, gt_classes, weight = class_weights, reduction="mean")
 
